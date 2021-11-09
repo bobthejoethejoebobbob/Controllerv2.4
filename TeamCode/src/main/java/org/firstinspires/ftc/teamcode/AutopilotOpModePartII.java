@@ -141,6 +141,7 @@ public class AutopilotOpModePartII extends OpMode {
     public void loop() {
         if (gamepad1.b) {
             if (gamepad1.right_trigger > 0.5) {
+                // We have to replace this with encoders for auto - I wired them on Tuesday
                 double y_coordinate = -gamepad1.left_stick_x;
                 double x_coordinate = -gamepad1.left_stick_y;
                 telemetry.addLine("tracking mode on");
@@ -205,6 +206,7 @@ public class AutopilotOpModePartII extends OpMode {
                     BackLeft.setPower(0);
                     BackRight.setPower(0);
                     int k = 0;
+                    //I dont think we need any intake for auto yet
                     while (k < 200000) {
                         intakePower = Range.clip(1.0, -1.0, 1.0) * 0.8;
                         Intake.setPower(-intakePower);
