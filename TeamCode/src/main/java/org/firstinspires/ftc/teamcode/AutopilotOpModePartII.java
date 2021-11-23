@@ -72,7 +72,6 @@ public class AutopilotOpModePartII extends OpMode {
         intakePower = 0.0;
         spinnerPower = 0.0;
         slidePower = 0.0;
-        protectionMode = true;
         multiplier = 0.25;
         intakeSetting = 1;
         spinnerSetting = 1;
@@ -263,13 +262,6 @@ public class AutopilotOpModePartII extends OpMode {
                 slide = 0.1;
             }
             //Other modes
-            if (gamepad1.a) {
-                protectionMode = false;
-                multiplier = 1.0;
-            }
-            if (gamepad1.a && gamepad1.y) {
-                protectionMode = true;
-                multiplier = 0.25;
             }
             //Intake + Spinner settings
             if (checking(gamepad1.dpad_right)) {
