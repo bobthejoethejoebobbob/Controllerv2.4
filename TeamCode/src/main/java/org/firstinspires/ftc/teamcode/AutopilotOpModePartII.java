@@ -238,7 +238,7 @@ public class AutopilotOpModePartII extends OpMode {
             }
         } else {
             //Claw + arm controls
-            armPos = (Math.pow(gamepad2.right_trigger, 3))/2.5 + 0.6;
+            armPos = (gamepad2.right_trigger)/2.5 + 0.65;
             if (armPos < 0.65) {
                 clawPos = 0.3;
             }
@@ -259,17 +259,17 @@ public class AutopilotOpModePartII extends OpMode {
                 slide = 0.0;
             }
             //Intake + Spinner settings
-            if (gamepad1.dpad_up) {
-                intakeSetting = 1;
+            if (checking(gamepad1.dpad_right)) {
+                intakeSetting = intakeSetting + 1;
+                if (intakeSetting > 2) {
+                    intakeSetting = 1;
+                }
             }
-            if (gamepad1.dpad_down) {
-                intakeSetting = 2;
-            }
-            if (gamepad1.dpad_left) {
-                spinnerSetting = 1;
-            }
-            if (gamepad1.dpad_right) {
-                spinnerSetting = 2;
+            if (checking(gamepad1.dpad_left)) {
+                spinnerSetting = spinnerSetting + 1;
+                if (spinnerSetting > 2) {
+                    spinnerSetting = 1;
+                }
             }
             if (intakeSetting == 1) {
                 intakeFactor = 1.0;
@@ -304,8 +304,8 @@ public class AutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-/*            ArmPos = Range.clip(ArmPos, MIN_POSITION, MAX_POSITION);
-            ClawPos = Range.clip(ClawPos, MIN_POSITION, MAX_POSITION);*/
+            armPos = Range.clip(armPos, MIN_POSITION, MAX_POSITION);
+            clawPos = Range.clip(clawPos, MIN_POSITION, MAX_POSITION);
             spinnerPower = Range.clip(spin, -1.0, 1.0) * 0.8;
             intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
             slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
