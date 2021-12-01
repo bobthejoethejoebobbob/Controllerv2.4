@@ -243,14 +243,14 @@ public class AutopilotOpModePartII extends OpMode {
                 }
             }
         }
-        if (gamepad2.x) {
-            if (gamepad2.right_trigger > 0.5) {
+        else {
+            if (gamepad2.x) {
                 double y_coordinate = -gamepad2.left_stick_x;
                 double x_coordinate = -gamepad2.left_stick_y;
                 telemetry.addLine("dropping mode on");
                 double distance = Math.sqrt(Math.pow(x_coordinate, 2) + Math.pow(y_coordinate, 2));
                 telemetry.update();
-                if (distance > 0.0) {
+                if (distance >= 0.0) {
                     //distance input is determined by stick position magnitude
                     //angle input is determined by stick position angle
                     clawPos = 0.3;
@@ -306,6 +306,12 @@ public class AutopilotOpModePartII extends OpMode {
                             j++;
                         }
                     }
+                    int y = 0;
+                    while (y < 10000) {
+                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
+                        Slide.setPower(slide);
+                        y++;
+                    }
                     //lines above control how motors are activated to conform to angle and distance values
                     FrontLeft.setPower(0);
                     FrontRight.setPower(0);
@@ -313,6 +319,8 @@ public class AutopilotOpModePartII extends OpMode {
                     BackRight.setPower(0);
                     int k = 0;
                     while (k < 5000) {
+                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
+                        Slide.setPower(slidePower);
                         armPos = 1.0;
                         k++;
                     }
@@ -320,13 +328,19 @@ public class AutopilotOpModePartII extends OpMode {
                     clawMode = 1;
                     int w = 0;
                     while (w < 5000) {
+                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
+                        Slide.setPower(slidePower);
                         w++;
                     }
                     armPos = 0.6;
+                    int z = 0;
+                    while (z < 10000) {
+                        slidePower = Range.clip(1.0, -1.0, 1.0) * 0.4;
+                        Slide.setPower(slidePower);
+                        z++;
+                    }
                 }
             }
-        }
-        else {
             //Claw + arm controls
             if (gamepad2.dpad_left) {
                 if (!xWasDown){
