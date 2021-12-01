@@ -27,8 +27,6 @@ public class AutopilotOpModePartII extends OpMode {
     private DcMotor Slide;
     private Servo Arm;
     private Servo Claw;
-    double MIN_POSITION;
-    double MAX_POSITION;
     double armPos;
     double clawPos;
     double drive;
@@ -53,6 +51,11 @@ public class AutopilotOpModePartII extends OpMode {
     double spinFactor;
     boolean checker;
     boolean rotation;
+    boolean holdArm;
+    int clawMode;
+    boolean bWasDown;
+    boolean xWasDown;
+    int armMode;
     public double startTime = runtime.milliseconds();
 
     @Override
@@ -79,10 +82,13 @@ public class AutopilotOpModePartII extends OpMode {
         spinFactor = 0.0;
         checker = false;
         rotation = false;
-        MIN_POSITION = 0;
-        MAX_POSITION = 1;
         armPos = 0.5;
         clawPos = 0.9;
+        holdArm = false;
+        clawMode = 1;
+        bWasDown = false;
+        xWasDown = false;
+        armMode = 0;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -145,7 +151,7 @@ public class AutopilotOpModePartII extends OpMode {
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     //key press function
-    public boolean checking(boolean key) {
+    public boolean hold(boolean key) {
         if (key) {
             this.checker = true;
         }
@@ -226,7 +232,7 @@ public class AutopilotOpModePartII extends OpMode {
                     BackLeft.setPower(0);
                     BackRight.setPower(0);
                     int k = 0;
-                    while (k < 200000) {
+                    while (k < 80000) {
                         intakePower = Range.clip(1.0, -1.0, 1.0) * 0.8;
                         Intake.setPower(-intakePower);
                         Intake2.setPower(intakePower);
@@ -236,13 +242,116 @@ public class AutopilotOpModePartII extends OpMode {
                     Intake2.setPower(0);
                 }
             }
-        } else {
+        }
+        if (gamepad2.x) {
+            if (gamepad2.right_trigger > 0.5) {
+                double y_coordinate = -gamepad2.left_stick_x;
+                double x_coordinate = -gamepad2.left_stick_y;
+                telemetry.addLine("dropping mode on");
+                double distance = Math.sqrt(Math.pow(x_coordinate, 2) + Math.pow(y_coordinate, 2));
+                telemetry.update();
+                if (distance > 0.0) {
+                    //distance input is determined by stick position magnitude
+                    //angle input is determined by stick position angle
+                    clawPos = 0.3;
+                    armPos = 0.6;
+                    double angle = 50 * Math.asin(y_coordinate / distance);
+                    telemetry.addLine(String.valueOf(angle));
+                    int p = 0;
+                    while (p < (300 * Math.abs(angle * y_coordinate))) {
+                        if (x_coordinate < 0) {
+                            frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                        }
+                        if (x_coordinate >= 0) {
+                            frontLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                        }
+                        p++;
+                    }
+                    int j = 0;
+                    while (j < (20000 * distance)) {
+                        if (x_coordinate < 0) {
+                            frontLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                            j++;
+                        }
+                        if (x_coordinate >= 0) {
+                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                            j++;
+                        }
+                    }
+                    //lines above control how motors are activated to conform to angle and distance values
+                    FrontLeft.setPower(0);
+                    FrontRight.setPower(0);
+                    BackLeft.setPower(0);
+                    BackRight.setPower(0);
+                    int k = 0;
+                    while (k < 5000) {
+                        armPos = 1.0;
+                        k++;
+                    }
+                    clawPos = 0.9;
+                    clawMode = 1;
+                    int w = 0;
+                    while (w < 5000) {
+                        w++;
+                    }
+                    armPos = 0.6;
+                }
+            }
+        }
+        else {
             //Claw + arm controls
-            armPos = (Math.pow(gamepad2.right_trigger, 3))/2.5 + 0.6;
+            if (gamepad2.dpad_left) {
+                if (!xWasDown){
+                    xWasDown = true;
+                    armMode++;
+                }
+            } else {
+                xWasDown = false;
+            }
+            if (!holdArm) {
+                armPos = (Math.pow(gamepad2.right_trigger, 3)) / 2.5 + 0.6;
+            }
             if (armPos < 0.65) {
                 clawPos = 0.3;
             }
             if (gamepad2.b) {
+                if (!bWasDown){
+                    bWasDown = true;
+                    clawMode++;
+                }
+            } else {
+                bWasDown = false;
+            }
+            holdArm = armMode % 2 == 0;
+            if (clawMode%2 == 0) {
                 clawPos = 0.3;
             }
             else {
@@ -304,8 +413,6 @@ public class AutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-/*            ArmPos = Range.clip(ArmPos, MIN_POSITION, MAX_POSITION);
-            ClawPos = Range.clip(ClawPos, MIN_POSITION, MAX_POSITION);*/
             spinnerPower = Range.clip(spin, -1.0, 1.0) * 0.8;
             intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
             slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
