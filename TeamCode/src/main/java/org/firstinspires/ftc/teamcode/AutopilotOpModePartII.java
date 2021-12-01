@@ -242,9 +242,93 @@ public class AutopilotOpModePartII extends OpMode {
                     Intake2.setPower(0);
                 }
             }
-        } else {
+        }
+        if (gamepad2.x) {
+            if (gamepad2.right_trigger > 0.5) {
+                double y_coordinate = -gamepad2.left_stick_x;
+                double x_coordinate = -gamepad2.left_stick_y;
+                telemetry.addLine("dropping mode on");
+                double distance = Math.sqrt(Math.pow(x_coordinate, 2) + Math.pow(y_coordinate, 2));
+                telemetry.update();
+                if (distance > 0.0) {
+                    //distance input is determined by stick position magnitude
+                    //angle input is determined by stick position angle
+                    clawPos = 0.3;
+                    armPos = 0.6;
+                    double angle = 50 * Math.asin(y_coordinate / distance);
+                    telemetry.addLine(String.valueOf(angle));
+                    int p = 0;
+                    while (p < (300 * Math.abs(angle * y_coordinate))) {
+                        if (x_coordinate < 0) {
+                            frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                        }
+                        if (x_coordinate >= 0) {
+                            frontLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                        }
+                        p++;
+                    }
+                    int j = 0;
+                    while (j < (20000 * distance)) {
+                        if (x_coordinate < 0) {
+                            frontLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                            j++;
+                        }
+                        if (x_coordinate >= 0) {
+                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            FrontLeft.setPower(0.5 * frontLeftPower);
+                            FrontRight.setPower(0.5 * frontRightPower);
+                            BackLeft.setPower(0.5 * backLeftPower);
+                            BackRight.setPower(0.5 * backRightPower);
+                            j++;
+                        }
+                    }
+                    //lines above control how motors are activated to conform to angle and distance values
+                    FrontLeft.setPower(0);
+                    FrontRight.setPower(0);
+                    BackLeft.setPower(0);
+                    BackRight.setPower(0);
+                    int k = 0;
+                    while (k < 5000) {
+                        armPos = 1.0;
+                        k++;
+                    }
+                    clawPos = 0.9;
+                    clawMode = 1;
+                    int w = 0;
+                    while (w < 5000) {
+                        w++;
+                    }
+                    armPos = 0.6;
+                }
+            }
+        }
+        else {
             //Claw + arm controls
-            if (gamepad2.x) {
+            if (gamepad2.dpad_left) {
                 if (!xWasDown){
                     xWasDown = true;
                     armMode++;
