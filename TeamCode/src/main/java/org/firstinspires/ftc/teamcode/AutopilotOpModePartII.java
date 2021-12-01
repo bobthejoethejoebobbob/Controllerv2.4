@@ -57,7 +57,7 @@ public class AutopilotOpModePartII extends OpMode {
 
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized" + "ashwin");
+        telemetry.addData("Status", "Initialized" + "ashwi");
         drive = 0.0;
         turn = 0.0;
         strafe = 0.0;
