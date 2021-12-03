@@ -52,6 +52,7 @@ public class AutopilotOpModePartII extends OpMode {
     boolean checker;
     boolean rotation;
     boolean holdArm;
+    boolean dpadWasDown;
     int clawMode;
     boolean bWasDown;
     boolean xWasDown;
@@ -88,6 +89,7 @@ public class AutopilotOpModePartII extends OpMode {
         clawMode = 1;
         bWasDown = false;
         xWasDown = false;
+        dpadWasDown = false;
         armMode = 0;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -244,7 +246,7 @@ public class AutopilotOpModePartII extends OpMode {
             }
         }
         else {
-            if (gamepad2.x) {
+            if (gamepad2.right_bumper) {
                 double y_coordinate = -gamepad2.left_stick_x;
                 double x_coordinate = -gamepad2.left_stick_y;
                 telemetry.addLine("dropping mode on");
@@ -343,33 +345,50 @@ public class AutopilotOpModePartII extends OpMode {
             }
             //Claw + arm controls
             if (gamepad2.dpad_left) {
-                if (!xWasDown){
-                    xWasDown = true;
+                if (!dpadWasDown){
+                    dpadWasDown = true;
                     armMode++;
                 }
             } else {
-                xWasDown = false;
+                dpadWasDown = false;
             }
             if (!holdArm) {
                 armPos = (Math.pow(gamepad2.right_trigger, 3)) / 2.5 + 0.6;
             }
             if (armPos < 0.65) {
-                clawPos = 0.3;
+                clawPos = 0.5;
             }
             if (gamepad2.b) {
                 if (!bWasDown){
                     bWasDown = true;
                     clawMode++;
                 }
-            } else {
+            }
+            else {
                 bWasDown = false;
             }
-            holdArm = armMode % 2 == 0;
+            if (gamepad2.x) {
+                if (!xWasDown) {
+                    clawMode ++;
+                    armMode++;
+                    xWasDown = true;
+                }
+            }
+            else {
+                xWasDown = false;
+            }
+
             if (clawMode%2 == 0) {
-                clawPos = 0.3;
+                clawPos = 0.5;
             }
             else {
                 clawPos = 0.9;
+            }
+            if (armMode%2 == 0) {
+                armPos = 1;
+            }
+            else {
+                armPos = 0.6;
             }
             //Slide controls
             if (gamepad2.y) {
@@ -448,12 +467,14 @@ public class AutopilotOpModePartII extends OpMode {
             telemetry.addData("intakeSetting", intakeSetting);
             telemetry.addData("spinnerSetting", spinnerSetting);*/
             //Telemetry
-//            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
-//            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
-//            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-//            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
+            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
+            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-slide", Slide.getCurrentPosition());
             telemetry.addData("Claw Position", clawPos);
             telemetry.addData("Arm Position", armPos);
+
 
             telemetry.update();
             //Sets all of the motors
