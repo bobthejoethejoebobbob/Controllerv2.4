@@ -25,10 +25,8 @@ public class AutopilotOpModePartII extends OpMode {
     private DcMotor Spinner;
     private DcMotor Intake2;
     private DcMotor Slide;
-    private Servo Arm;
-    private Servo Claw;
-    double armPos;
-    double clawPos;
+    private Servo Bucket;
+    double bucketPos;
     double drive;
     double turn;
     double strafe;
@@ -51,11 +49,7 @@ public class AutopilotOpModePartII extends OpMode {
     double spinFactor;
     boolean checker;
     boolean rotation;
-    boolean holdArm;
-    int clawMode;
-    boolean bWasDown;
     boolean xWasDown;
-    int armMode;
     public double startTime = runtime.milliseconds();
 
     @Override
@@ -82,13 +76,8 @@ public class AutopilotOpModePartII extends OpMode {
         spinFactor = 0.0;
         checker = false;
         rotation = false;
-        armPos = 0.5;
-        clawPos = 0.9;
-        holdArm = false;
-        clawMode = 1;
-        bWasDown = false;
+        bucketPos = 0.6;
         xWasDown = false;
-        armMode = 0;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -101,8 +90,7 @@ public class AutopilotOpModePartII extends OpMode {
         Spinner = hardwareMap.get(DcMotor.class, "Spinner");
         Intake2 = hardwareMap.get(DcMotor.class, "Intake2");
         Slide = hardwareMap.get(DcMotor.class, "Slide");
-        Arm = hardwareMap.get(Servo.class, "Arm");
-        Claw = hardwareMap.get(Servo.class, "Claw");
+        Bucket = hardwareMap.get(Servo.class, "Bucket");
 
 
 
@@ -244,132 +232,13 @@ public class AutopilotOpModePartII extends OpMode {
             }
         }
         else {
-            if (gamepad2.x) {
-                double y_coordinate = -gamepad2.left_stick_x;
-                double x_coordinate = -gamepad2.left_stick_y;
-                telemetry.addLine("dropping mode on");
-                double distance = Math.sqrt(Math.pow(x_coordinate, 2) + Math.pow(y_coordinate, 2));
-                telemetry.update();
-                if (distance >= 0.0) {
-                    //distance input is determined by stick position magnitude
-                    //angle input is determined by stick position angle
-                    clawPos = 0.3;
-                    armPos = 0.6;
-                    double angle = 50 * Math.asin(y_coordinate / distance);
-                    telemetry.addLine(String.valueOf(angle));
-                    int p = 0;
-                    while (p < (300 * Math.abs(angle * y_coordinate))) {
-                        if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                        }
-                        if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                        }
-                        p++;
-                    }
-                    int j = 0;
-                    while (j < (20000 * distance)) {
-                        if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                            j++;
-                        }
-                        if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                            j++;
-                        }
-                    }
-                    int y = 0;
-                    while (y < 10000) {
-                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
-                        Slide.setPower(slide);
-                        y++;
-                    }
-                    //lines above control how motors are activated to conform to angle and distance values
-                    FrontLeft.setPower(0);
-                    FrontRight.setPower(0);
-                    BackLeft.setPower(0);
-                    BackRight.setPower(0);
-                    int k = 0;
-                    while (k < 5000) {
-                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
-                        Slide.setPower(slidePower);
-                        armPos = 1.0;
-                        k++;
-                    }
-                    clawPos = 0.9;
-                    clawMode = 1;
-                    int w = 0;
-                    while (w < 5000) {
-                        slidePower = Range.clip(-1.0, -1.0, 1.0) * 0.4;
-                        Slide.setPower(slidePower);
-                        w++;
-                    }
-                    armPos = 0.6;
-                    int z = 0;
-                    while (z < 10000) {
-                        slidePower = Range.clip(1.0, -1.0, 1.0) * 0.4;
-                        Slide.setPower(slidePower);
-                        z++;
-                    }
-                }
-            }
-            //Claw + arm controls
-            if (gamepad2.dpad_left) {
-                if (!xWasDown){
-                    xWasDown = true;
-                    armMode++;
-                }
-            } else {
-                xWasDown = false;
-            }
-            if (!holdArm) {
-                armPos = (Math.pow(gamepad2.right_trigger, 3)) / 2.5 + 0.6;
-            }
-            if (armPos < 0.65) {
-                clawPos = 0.3;
-            }
+            //Bucket controls
             if (gamepad2.b) {
-                if (!bWasDown){
-                    bWasDown = true;
-                    clawMode++;
+                if (!xWasDown){
+                    bucketPos = 0.6;
                 }
             } else {
-                bWasDown = false;
-            }
-            holdArm = armMode % 2 == 0;
-            if (clawMode%2 == 0) {
-                clawPos = 0.3;
-            }
-            else {
-                clawPos = 0.9;
+                bucketPos = 1.0;
             }
             //Slide controls
             if (gamepad2.y) {
@@ -452,13 +321,11 @@ public class AutopilotOpModePartII extends OpMode {
 //            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
 //            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
 //            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("Claw Position", clawPos);
-            telemetry.addData("Arm Position", armPos);
+            telemetry.addData("Bucket Position", bucketPos);
 
             telemetry.update();
             //Sets all of the motors
-            Arm.setPosition(armPos);
-            Claw.setPosition(clawPos);
+            Bucket.setPosition(bucketPos);
             FrontLeft.setPower(multiplier * frontLeftPower);
             FrontRight.setPower(multiplier * frontRightPower);
             BackLeft.setPower(multiplier * backLeftPower);
