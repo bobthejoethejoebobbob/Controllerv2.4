@@ -179,16 +179,6 @@ public class EncoderAutonomousTest extends LinearOpMode
         FrontRight.setPower(-0.25);
         BackRight.setPower(-0.25);
 
-        while (opModeIsActive() && FrontLeft.getCurrentPosition() > FrontLeft.getTargetPosition())
-        {
-            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
-            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
-            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.update();
-            idle();
-        }
-
         // set motor power to zero to stop motors.
 
         FrontLeft.setPower(0.0);
