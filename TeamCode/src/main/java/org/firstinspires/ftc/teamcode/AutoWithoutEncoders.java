@@ -4,10 +4,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Garbage Encoderless Auto Blue Side", group="Autonomous")
-public class EncoderAutonomousTest extends LinearOpMode
+public class AutoWithoutEncoders extends LinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
@@ -18,8 +21,7 @@ public class EncoderAutonomousTest extends LinearOpMode
     private DcMotor Spinner;
     private DcMotor Intake2;
     private DcMotor Slide;
-    private Servo Arm;
-    private Servo Claw;
+    private Servo Bucket;
     double armPos;
     double clawPos;
     double drive;
@@ -40,7 +42,7 @@ public class EncoderAutonomousTest extends LinearOpMode
     double timeB; //do carousel
     double timeC; //move back
     double timeD; //turn robot
-    double timeC: //strafe left and drive into park
+    double timeE; //strafe left and drive into park
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
@@ -56,7 +58,7 @@ public class EncoderAutonomousTest extends LinearOpMode
     boolean xWasDown;
     int armMode;
     public double startTime = runtime.milliseconds();
-    public static void setMecanumPower(){
+    public void setMecanumPower(){
         FrontLeft.setPower(multiplier * Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8);
         FrontRight.setPower(multiplier * Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8);
         BackLeft.setPower(multiplier * Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8);
@@ -106,8 +108,7 @@ public class EncoderAutonomousTest extends LinearOpMode
         Spinner = hardwareMap.get(DcMotor.class, "Spinner");
         Intake2 = hardwareMap.get(DcMotor.class, "Intake2");
         Slide = hardwareMap.get(DcMotor.class, "Slide");
-        Arm = hardwareMap.get(Servo.class, "Arm");
-        Claw = hardwareMap.get(Servo.class, "Claw");
+        Bucket = hardwareMap.get(Servo.class, "Bucket");
 
 
 
@@ -141,22 +142,22 @@ public class EncoderAutonomousTest extends LinearOpMode
 
         resetStartTime();
 
-        while (opModeIsActive() && getRunTime()<5){
+        while (opModeIsActive() && runtime.seconds()<5.0){
             strafe = 0;
             drive = 1;
             setMecanumPower();
         }
-        while (opModeIsActive() && 5<getRunTime()<10){
+        while (opModeIsActive() && (5.0<runtime.seconds()) && runtime.seconds()<10.0){
             strafe = 1;
             drive = 0;
             setMecanumPower();
         }
-        while (opModeIsActive() && 10<getRunTime()<15){
+        while (opModeIsActive() && (10.0<runtime.seconds()) && runtime.seconds()<15.0){
             strafe = 0;
             drive = -1;
             setMecanumPower();
         }
-        while (opModeIsActive() && 15<getRunTime()<20){
+        while (opModeIsActive() && (15.0<runtime.seconds()) && runtime.seconds()<20.0){
             strafe = -1;
             drive = 0;
             setMecanumPower();
