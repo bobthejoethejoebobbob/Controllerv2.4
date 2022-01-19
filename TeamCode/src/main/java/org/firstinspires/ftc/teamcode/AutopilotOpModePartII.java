@@ -317,10 +317,10 @@ public class AutopilotOpModePartII extends OpMode {
             telemetry.addData("intakeSetting", intakeSetting);
             telemetry.addData("spinnerSetting", spinnerSetting);*/
             //Telemetry
-//            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
-//            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
-//            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-//            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
+            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
+            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
             telemetry.addData("Bucket Position", bucketPos);
 
             telemetry.update();
