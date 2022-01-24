@@ -3,15 +3,88 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Drive Encoder", group="Exercises")
 public class EncoderAutonomousTest extends LinearOpMode
 {
+    private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
     private DcMotor BackLeft;
     private DcMotor BackRight;
-
+    private DcMotor Intake;
+    private DcMotor Spinner;
+    private DcMotor Intake2;
+    private DcMotor Slide;
+    private Servo Bucket;
+    double armPos;
+    double clawPos;
+    double drive;
+    double turn;
+    double strafe;
+    double force;
+    double spin;
+    double slide;
+    double frontLeftPower;
+    double frontRightPower;
+    double backLeftPower;
+    double backRightPower;
+    double intakePower;
+    double spinnerPower;
+    double slidePower;
+    double multiplier;
+    double timeA; //strafe to carousel
+    double timeB; //do carousel
+    double timeC; //move back
+    double timeD; //turn robot
+    double timeE; //strafe left and drive into park
+    double tickConversion;
+    int intakeSetting;
+    int spinnerSetting;
+    double intakeFactor;
+    int i;
+    boolean trackingMode;
+    double spinFactor;
+    boolean checker;
+    boolean rotation;
+    boolean holdArm;
+    boolean dpadWasDown;
+    int clawMode;
+    boolean bWasDown;
+    boolean xWasDown;
+    int armMode;
+    double initialposition;
+    public double startTime = runtime.milliseconds();
+    public void setMecanumPower(){
+        FrontLeft.setPower(multiplier * Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8);
+        FrontRight.setPower(multiplier * Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8);
+        BackLeft.setPower(multiplier * Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8);
+        BackRight.setPower(multiplier * Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8);
+    }
+    public void drive(double length){
+        initialposition = BackLeft.getCurrentPosition();
+        while(BackLeft.getCurrentPosition()<length+initialposition){
+            turn = 0;
+            drive = 1;
+            strafe = 0;
+            setMecanumPower();
+        }
+        turn = 0;
+        drive = 0;
+        strafe = 0;
+    }
+    public void strafe(double length){
+        initialposition = BackLeft.getCurrentPosition();
+        while(BackLeft.getCurrentPosition()<1.66666*length+initialposition) {
+            turn = 0;
+            drive = 1;
+            strafe = 0;
+            setMecanumPower();
+        }
+    }
     public void runOpMode() throws InterruptedException
     {
 
