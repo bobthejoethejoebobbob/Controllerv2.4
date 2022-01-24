@@ -76,7 +76,7 @@ public class AutopilotOpModePartII extends OpMode {
         spinFactor = 0.0;
         checker = false;
         rotation = false;
-        bucketPos = 0.6;
+        bucketPos = 0.5;
         xWasDown = false;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -235,7 +235,7 @@ public class AutopilotOpModePartII extends OpMode {
             //Bucket controls
             if (gamepad2.b) {
                 if (!xWasDown){
-                    bucketPos = 0.6;
+                    bucketPos = 0.5;
                 }
             } else {
                 bucketPos = 1.0;
