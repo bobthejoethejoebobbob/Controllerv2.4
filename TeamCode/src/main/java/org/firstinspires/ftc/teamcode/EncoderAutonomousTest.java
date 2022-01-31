@@ -87,7 +87,7 @@ public class EncoderAutonomousTest extends LinearOpMode
     }
     public void runOpMode() throws InterruptedException
     {
-
+        double x = 0; // encoder ticks/foot
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
         BackLeft.setDirection(DcMotor.Direction.REVERSE);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
@@ -99,20 +99,24 @@ public class EncoderAutonomousTest extends LinearOpMode
         FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // set motors to run forward for 5000 encoder counts.
-        FrontLeft.setTargetPosition(5000);
-        BackLeft.setTargetPosition(5000);
-        FrontRight.setTargetPosition(5000);
-        BackRight.setTargetPosition(5000);
+        // set motors to run forward for x encoder counts.
+        FrontLeft.setTargetPosition((int) (3.5*x));
+        BackLeft.setTargetPosition((int) (3.5*x));
+        FrontRight.setTargetPosition((int) (3.5 *x));
+        BackRight.setTargetPosition((int)(3.5 * x));
+        //Spinner.setTargetPosition((int)(something here);
 
         // set motors to run to target encoder position and stop with brakes on.
         FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("Mode", "running");
         telemetry.update();
+
+
 
         // set both motors to 25% power. Movement will start. Sign of power is
         // ignored as sign of target encoder position controls direction when
