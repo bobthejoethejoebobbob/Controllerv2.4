@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Autopilot OpMode", group="Iterative Opmode")
 public class AutopilotOpModePartII extends OpMode {
 
-    // Declare OpMode members.
+    // Declare  OpMode members.
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
