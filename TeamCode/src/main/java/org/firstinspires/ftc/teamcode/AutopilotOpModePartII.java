@@ -349,9 +349,9 @@ public class AutopilotOpModePartII extends OpMode {
             FrontRight.setPower(multiplier * frontRightPower);
             BackLeft.setPower(multiplier * backLeftPower);
             BackRight.setPower(multiplier * backRightPower);
-            Intake.setPower(intakeFactor * intakePower);
+            Intake.setPower(-intakeFactor * intakePower);
             Spinner.setPower(spinFactor * spinnerPower);
-            Intake2.setPower(-intakeFactor * intakePower);
+            Intake2.setPower(intakeFactor * intakePower);
             Slide.setPower(slidePower);
         }
         telemetry.update();
