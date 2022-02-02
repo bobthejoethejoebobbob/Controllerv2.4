@@ -102,6 +102,7 @@ public class AutopilotOpModePartII extends OpMode {
         FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
