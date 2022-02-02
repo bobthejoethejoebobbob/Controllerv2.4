@@ -253,11 +253,18 @@ public class AutopilotOpModePartII extends OpMode {
             if (gamepad2.y) {
                 slide = -1.0;
             }
-            if (gamepad2.a) {
-                slide = 1.0;
+            if (Slide.getCurrentPosition() < 20) {
+                if (gamepad2.a) {
+                    slide = 1.0;
+                }
             }
             if (!gamepad2.a && !gamepad2.y) {
                 slide = 0.0;
+            }
+            if (Slide.getCurrentPosition() > 20) {
+                Slide.setTargetPosition(0);
+                slide = 0.0;
+                Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             //Intake + Spinner settings
             if (gamepad1.dpad_up) {
