@@ -4,9 +4,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Garbage Encoderless Auto Blue Side", group="Autonomous")
 public class AutoWithoutEncoders extends LinearOpMode
@@ -20,8 +21,7 @@ public class AutoWithoutEncoders extends LinearOpMode
     private DcMotor Spinner;
     private DcMotor Intake2;
     private DcMotor Slide;
-    private Servo Arm;
-    private Servo Claw;
+    private Servo Bucket;
     double armPos;
     double clawPos;
     double drive;
@@ -38,6 +38,11 @@ public class AutoWithoutEncoders extends LinearOpMode
     double spinnerPower;
     double slidePower;
     double multiplier;
+    double timeA; //strafe to carousel
+    double timeB; //do carousel
+    double timeC; //move back
+    double timeD; //turn robot
+    double timeE; //strafe left and drive into park
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
@@ -53,7 +58,12 @@ public class AutoWithoutEncoders extends LinearOpMode
     boolean xWasDown;
     int armMode;
     public double startTime = runtime.milliseconds();
-
+    public void setMecanumPower(){
+        FrontLeft.setPower(multiplier * Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8);
+        FrontRight.setPower(multiplier * Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8);
+        BackLeft.setPower(multiplier * Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8);
+        BackRight.setPower(multiplier * Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8);
+    }
     public void runOpMode() throws InterruptedException
     {
         telemetry.addData("Status", "Initialized");
@@ -98,8 +108,7 @@ public class AutoWithoutEncoders extends LinearOpMode
         Spinner = hardwareMap.get(DcMotor.class, "Spinner");
         Intake2 = hardwareMap.get(DcMotor.class, "Intake2");
         Slide = hardwareMap.get(DcMotor.class, "Slide");
-        Arm = hardwareMap.get(Servo.class, "Arm");
-        Claw = hardwareMap.get(Servo.class, "Claw");
+        Bucket = hardwareMap.get(Servo.class, "Bucket");
 
 
 
@@ -129,75 +138,19 @@ public class AutoWithoutEncoders extends LinearOpMode
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
         // wait while opmode is active and left motor is busy running to position.
-
-        while (opModeIsActive() && FrontLeft.isBusy())
-        {
-            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition() + "  busy=" + FrontLeft.isBusy());
-            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition() + "  busy=" + BackLeft.isBusy());
-            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition() + "  busy=" + FrontRight.isBusy());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition() + "  busy=" + BackRight.isBusy());
-            telemetry.update();
-            idle();
-        }
-
-        // set motor power to zero to turn off motors. The motors stop on their own but
-        // power is still applied so we turn off the power.
-
-        FrontLeft.setPower(0.0);
-        BackLeft.setPower(0.0);
-        FrontRight.setPower(0.0);
-        BackRight.setPower(0.0);
-
-        // wait 5 sec to you can observe the final encoder position.
-
-        resetStartTime();
-
-        while (opModeIsActive() && getRuntime() < 5)
-        {
-            telemetry.addData("encoder-front-left-end", FrontLeft.getCurrentPosition());
-            telemetry.addData("encoder-back-left-end", BackLeft.getCurrentPosition());
-            telemetry.addData("encoder-front-right-end", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right-end", BackRight.getCurrentPosition());
-            telemetry.update();
-            idle();
-        }
-
-        // Back to starting position without encoders(to measure precision)
-
-
-        FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        FrontLeft.setTargetPosition(0);
-        BackLeft.setTargetPosition(0);
-        FrontRight.setTargetPosition(0);
-        BackRight.setTargetPosition(0);
-
-
-        FrontLeft.setPower(-0.25);
-        BackLeft.setPower(-0.25);
-        FrontRight.setPower(-0.25);
-        BackRight.setPower(-0.25);
-
         // set motor power to zero to stop motors.
 
-        FrontLeft.setPower(0.0);
-        BackLeft.setPower(0.0);
-        FrontRight.setPower(0.0);
-        BackRight.setPower(0.0);
-
         resetStartTime();
-
-        while (opModeIsActive() && getRuntime() < 5)
-        {
-            telemetry.addData("encoder-front-left-end", FrontLeft.getCurrentPosition());
-            telemetry.addData("encoder-back-left-end", BackLeft.getCurrentPosition());
-            telemetry.addData("encoder-front-right-end", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right-end", BackRight.getCurrentPosition());
-            telemetry.update();
-            idle();
+        waitForStart();
+        while (opModeIsActive() && runtime.seconds()<3.0){
+            strafe = 0;
+            drive = -0.5;
+            setMecanumPower();
+        }
+        while (opModeIsActive() && (3.0<runtime.seconds()) && runtime.seconds()<5.0) {
+            strafe = 0;
+            drive = 0;
+            setMecanumPower();
         }
     }
 }
