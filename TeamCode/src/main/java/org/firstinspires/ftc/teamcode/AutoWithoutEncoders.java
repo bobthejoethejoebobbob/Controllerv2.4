@@ -144,11 +144,11 @@ public class AutoWithoutEncoders extends LinearOpMode
         waitForStart();
         while (opModeIsActive() && runtime.seconds()<3.0){
             strafe = 0;
-            drive = 0.5;
+            drive = -0.5;
             setMecanumPower();
         }
         while (opModeIsActive() && (3.0<runtime.seconds()) && runtime.seconds()<5.0) {
-            strafe = 0.5;
+            strafe = 0;
             drive = 0;
             setMecanumPower();
         }

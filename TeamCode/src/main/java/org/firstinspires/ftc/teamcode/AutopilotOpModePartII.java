@@ -312,7 +312,7 @@ public class AutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-            spinnerPower = Range.clip(spin, -1.0, 1.0) * 0.8;
+            spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
             intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
             slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
             frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
