@@ -8,11 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * By Narayan the GOAT
- */
 //@Disabled
-@TeleOp(name="Autopilot OpMode", group="Iterative Opmode")
+@TeleOp(name="TeleOp", group="Iterative Opmode")
 public class AutopilotOpModePartII extends OpMode {
 
     // Declare  OpMode members.

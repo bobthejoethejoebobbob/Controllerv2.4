@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Garbage Encoderless Auto Blue Side", group="Autonomous")
+@Autonomous(name="Parking Auto - Forward", group="Autonomous")
 public class AutoWithoutEncoders extends LinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
