@@ -204,16 +204,27 @@ public class DucksAndParkRed extends LinearOpMode
         telemetry.update();
         resetStartTime();
         waitForStart();
-        mecanumDrive("forward", -37, 1);
+        mecanumDrive("forward", -3, 1);
         mecanumDrive("strafe", -3, .5);
         mecanumDrive("forward", -3, 1);
+        telemetry.addLine("moved");
         double duckTime = runtime.seconds();
-        while(opModeIsActive() && runtime.seconds()<duckTime+5.5){
-            Spinner.setPower(-.5);
+        while(opModeIsActive() && runtime.seconds()<duckTime+3){
+            Spinner.setPower(-1.0);
         }
         Spinner.setPower(0);
-        mecanumDrive("forward", 5, 1);
-        mecanumDrive("strafe", 2, 1);
-        mecanumDrive("forward", 93, 1);
+        mecanumDrive("forward", 22, 1);
+        mecanumDrive("strafe",-42, 1);
+        resetStartTime();
+        double slideTime = runtime.seconds();
+        while(opModeIsActive() && runtime.seconds()<slideTime+4){
+            Slide.setPower(-0.4);
+        }
+        Slide.setPower(0);
+        telemetry.addLine("slide moved");
+        Bucket.setPosition(0.5);
+//        mecanumDrive("forward", 5, 1);
+//        mecanumDrive("strafe", 2, 1);
+//        mecanumDrive("forward", 93, 1);
     }
 }
