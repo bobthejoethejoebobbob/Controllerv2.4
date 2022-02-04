@@ -8,11 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * By Narayan the GOAT
- */
 //@Disabled
-@TeleOp(name="Autopilot OpMode", group="Iterative Opmode")
+@TeleOp(name="TeleOp", group="Iterative Opmode")
 public class AutopilotOpModePartII extends OpMode {
 
     // Declare  OpMode members.
@@ -312,7 +309,7 @@ public class AutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-            spinnerPower = Range.clip(spin, -1.0, 1.0) * 0.8;
+            spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
             intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
             slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
             frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
@@ -349,9 +346,9 @@ public class AutopilotOpModePartII extends OpMode {
             FrontRight.setPower(multiplier * frontRightPower);
             BackLeft.setPower(multiplier * backLeftPower);
             BackRight.setPower(multiplier * backRightPower);
-            Intake.setPower(intakeFactor * intakePower);
+            Intake.setPower(-intakeFactor * intakePower);
             Spinner.setPower(spinFactor * spinnerPower);
-            Intake2.setPower(-intakeFactor * intakePower);
+            Intake2.setPower(intakeFactor * intakePower);
             Slide.setPower(slidePower);
         }
         telemetry.update();
