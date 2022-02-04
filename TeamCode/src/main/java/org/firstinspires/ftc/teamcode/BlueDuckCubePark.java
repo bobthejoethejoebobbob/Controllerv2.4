@@ -1,7 +1,7 @@
-//please note: completely expected to crash and burn
-//INCOMPLETE DO NOT RUN NEED TO ACTUALLY CODE MOVEMENT
 package org.firstinspires.ftc.teamcode;
 
+//please note: completely expected to crash and burn
+//INCOMPLETE DO NOT RUN NEED TO ACTUALLY CODE MOVEMENT
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,9 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Parking Auto - Forward", group="Autonomous")
-public class AutoWithoutEncoders extends LinearOpMode
-{
+@Autonomous(name="Duck Auto", group="Autonomous")
+public class BlueDuckCubePark extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -58,14 +57,15 @@ public class AutoWithoutEncoders extends LinearOpMode
     boolean xWasDown;
     int armMode;
     public double startTime = runtime.milliseconds();
-    public void setMecanumPower(){
+
+    public void setMecanumPower() {
         FrontLeft.setPower(multiplier * Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8);
         FrontRight.setPower(multiplier * Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8);
         BackLeft.setPower(multiplier * Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8);
         BackRight.setPower(multiplier * Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8);
     }
-    public void runOpMode() throws InterruptedException
-    {
+
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         drive = 0.0;
         turn = 0.0;
@@ -111,8 +111,6 @@ public class AutoWithoutEncoders extends LinearOpMode
         Bucket = hardwareMap.get(Servo.class, "Bucket");
 
 
-
-
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -142,15 +140,49 @@ public class AutoWithoutEncoders extends LinearOpMode
 
         resetStartTime();
         waitForStart();
-        while (opModeIsActive() && runtime.seconds()<3.0){
+
+        while (opModeIsActive() && runtime.seconds() < 1) {
+            strafe = 0.5;
+            drive = 0;
+            setMecanumPower();
+        }
+        while (opModeIsActive() && (1 < runtime.seconds()) && runtime.seconds() < 1.5) {
             strafe = 0;
             drive = -0.5;
             setMecanumPower();
         }
-        while (opModeIsActive() && (3.0<runtime.seconds()) && runtime.seconds()<5.0) {
+
+        while (opModeIsActive() && (1.5 < runtime.seconds()) && runtime.seconds() < 7) {
             strafe = 0;
             drive = 0;
+            setMecanumPower();
+            Spinner.setDirection(DcMotor.Direction.REVERSE);
+            Spinner.setPower(0.5);
+
+
+        }
+
+        while (opModeIsActive() && (7 < runtime.seconds()) && runtime.seconds() < 9.5) {
+            strafe = 0;
+            drive = 0.5;
+            setMecanumPower();
+            Spinner.setPower(0);
+
+        }
+        while (opModeIsActive() && (9.5 < runtime.seconds()) && runtime.seconds() < 10.5) {
+            strafe = 0;
+            drive = 0;
+            frontLeftPower = 0.8;
+            frontRightPower =  -0.8;
+            backLeftPower = 0.8;
+            backRightPower = -0.8;
+            setMecanumPower();
+        }
+        while (opModeIsActive() && (10.5 < runtime.seconds()) && runtime.seconds() < 12) {
+            strafe = 0;
+            drive = 0.5;
             setMecanumPower();
         }
     }
 }
+
