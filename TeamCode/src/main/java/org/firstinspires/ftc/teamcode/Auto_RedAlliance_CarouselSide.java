@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Drive Encoder 1", group="Exercises")
-public class DucksAndParkRedEncoders extends LinearOpMode {
+@Autonomous(name="Auto Red Alliance Carousel Side (Duck-Cube(top)-Warehouse)", group="Exercises")
+public class Auto_RedAlliance_CarouselSide extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -58,99 +58,50 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
     double initialposition;
     public double startTime = runtime.milliseconds();
 
-    //Function to run motors to position
     public void mecanumDrive(String driveType, double value1, double power) {
-        //Forward Function
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if (driveType.equals("forward")) {
-            FrontLeft.setTargetPosition((int) (42.78 * value1 + FrontLeft.getCurrentPosition()));
-            BackLeft.setTargetPosition((int) (42.78 * value1 + BackLeft.getCurrentPosition()));
-            FrontRight.setTargetPosition((int) (42.78 * value1 + FrontRight.getCurrentPosition()));
-            BackRight.setTargetPosition((int) (42.78 * value1 + BackRight.getCurrentPosition()));
-            FrontLeft.setPower(power);
-            BackLeft.setPower(power);
-            FrontRight.setPower(power);
-            BackRight.setPower(power);
+            FrontLeft.setTargetPosition((int) (42.78 * value1)); //enter value in inches
+            BackLeft.setTargetPosition((int) (42.78 * value1));
+            FrontRight.setTargetPosition((int) (42.78 * value1));
+            BackRight.setTargetPosition((int) (42.78 * value1));
             FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        //Reverse Function
-        else if (driveType.equals("reverse")) {
-            FrontLeft.setTargetPosition((int) (-42.78 * value1 + FrontLeft.getCurrentPosition()));
-            BackLeft.setTargetPosition((int) (-42.78 * value1 + BackLeft.getCurrentPosition()));
-            FrontRight.setTargetPosition((int) (-42.78 * value1 + FrontRight.getCurrentPosition()));
-            BackRight.setTargetPosition((int) (-42.78 * value1 + BackRight.getCurrentPosition()));
             FrontLeft.setPower(power);
             BackLeft.setPower(power);
             FrontRight.setPower(power);
             BackRight.setPower(power);
+        } else if (driveType.equals("strafe")) {
+            FrontLeft.setTargetPosition((int) (47.53 * value1)); //enter value in inches
+            BackLeft.setTargetPosition((int) (-47.53 * value1));
+            FrontRight.setTargetPosition((int) (-47.53 * value1));
+            BackRight.setTargetPosition((int) (47.53 * value1));
             FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        //Strafe Right Function
-        else if (driveType.equals("strafeRight")) {
-            FrontLeft.setTargetPosition((int) (-47.53 * value1 + FrontLeft.getCurrentPosition()));
-            BackLeft.setTargetPosition((int) (47.53 * value1 + BackLeft.getCurrentPosition()));
-            FrontRight.setTargetPosition((int) (47.53 * value1 + FrontRight.getCurrentPosition()));
-            BackRight.setTargetPosition((int) (-47.53 * value1 + BackRight.getCurrentPosition()));
             FrontLeft.setPower(power);
             BackLeft.setPower(power);
             FrontRight.setPower(power);
             BackRight.setPower(power);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        //Strafe Left Function
-        else if (driveType.equals("strafeLeft")) {
-            FrontLeft.setTargetPosition((int) (47.53 * value1 + FrontLeft.getCurrentPosition()));
-            BackLeft.setTargetPosition((int) (-47.53 * value1 + BackLeft.getCurrentPosition()));
-            FrontRight.setTargetPosition((int) (-47.53 * value1 + FrontRight.getCurrentPosition()));
-            BackRight.setTargetPosition((int) (47.53 * value1 + BackRight.getCurrentPosition()));
-            FrontLeft.setPower(power);
-            BackLeft.setPower(power);
-            FrontRight.setPower(power);
-            BackRight.setPower(power);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        } else if (driveType.equals("turnRight")) {
+        } else if (driveType.equals("turn")) {
             FrontLeft.setTargetPosition((int) (10.12 * value1)); //enter value in degrees
             BackLeft.setTargetPosition((int) (10.12 * value1));
             FrontRight.setTargetPosition((int) (-10.12 * value1));
             BackRight.setTargetPosition((int) (-10.12 * value1));
-            FrontLeft.setPower(power);
-            BackLeft.setPower(power);
-            FrontRight.setPower(power);
-            BackRight.setPower(power);
             FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        } else if (driveType.equals("turnLeft")) {
-            FrontLeft.setTargetPosition((int) (-10.12 * value1)); //enter value in degrees
-            BackLeft.setTargetPosition((int) (-10.12 * value1));
-            FrontRight.setTargetPosition((int) (10.12 * value1));
-            BackRight.setTargetPosition((int) (10.12 * value1));
             FrontLeft.setPower(power);
             BackLeft.setPower(power);
             FrontRight.setPower(power);
             BackRight.setPower(power);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         }
 
         //noinspection StatementWithEmptyBody
@@ -165,6 +116,36 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         double x = 0; // encoder ticks/foot
+        telemetry.addData("Status", "Initialized");
+        drive = 0.0;
+        turn = 0.0;
+        strafe = 0.0;
+        force = 0.0;
+        spin = 0.0;
+        slide = 0.0;
+        frontLeftPower = 0.0;
+        frontRightPower = 0.0;
+        backLeftPower = 0.0;
+        backRightPower = 0.0;
+        intakePower = 0.0;
+        spinnerPower = 0.0;
+        slidePower = 0.0;
+        multiplier = 1.0;
+        intakeSetting = 1;
+        spinnerSetting = 1;
+        intakeFactor = 1.0;
+        trackingMode = false;
+        spinFactor = 0.0;
+        checker = false;
+        rotation = false;
+        armPos = 0.5;
+        clawPos = 0.9;
+        holdArm = false;
+        clawMode = 1;
+        bWasDown = false;
+        xWasDown = false;
+        dpadWasDown = false;
+        armMode = 0;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -179,6 +160,9 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
         Slide = hardwareMap.get(DcMotor.class, "Slide");
         Bucket = hardwareMap.get(Servo.class, "Bucket");
 
+
+        // Most robots need the motor on one side to be reversed to drive forward
+        // Reverse the motor that runs backwards when connected directly to the battery
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
         BackLeft.setDirection(DcMotor.Direction.REVERSE);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
@@ -187,6 +171,7 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
         Spinner.setDirection(DcMotor.Direction.FORWARD);
         Intake2.setDirection(DcMotor.Direction.FORWARD);
         Slide.setDirection(DcMotor.Direction.FORWARD);
+
 
         FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -197,11 +182,11 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
         Intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
-
-        //add telemetry info to driver hub
-        telemetry.addData("Mode", "running");
+        // wait while opmode is active and left motor is busy running to position.
+        // set motor power to zero to stop motors.
 
         // reset encoder counts kept by motors.
         FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -210,43 +195,52 @@ public class DucksAndParkRedEncoders extends LinearOpMode {
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // set motors to run to target encoder position and stop with brakes on.
+
+        //Spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        telemetry.addData("Mode", "running");
+        telemetry.update();
         resetStartTime();
         waitForStart();
-
-        //call mecaunum drive
-        mecanumDrive("strafeRight", 1.2, .5);
-
-        mecanumDrive("forward", 3, 1);
-
-        //There are no encoders on the carousel spinner, so this spins the carousel for aa given period of time
+        mecanumDrive("forward", -3.2, .55);
+        mecanumDrive("strafe", -4.2, .5);
+        mecanumDrive("forward", -3.5, .5);
+        telemetry.addLine("moved");
         double duckTime = runtime.seconds();
-        while (opModeIsActive() && runtime.seconds() < duckTime + 5.5) {
-            Spinner.setPower(-.5);
+        while (opModeIsActive() && runtime.seconds() < duckTime + 6) {
+            Spinner.setPower(-0.5);
+        }
+        Spinner.setPower(0);
+        mecanumDrive("strafe", -40, .5);
+        mecanumDrive("forward", 27, .5);
+
+
+        Slide.setTargetPosition(-930);
+        Slide.setPower(0.5);
+        Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (Slide.isBusy()) {
         }
 
-        //Stop using spinner
-        Spinner.setPower(0);
+        resetStartTime();
+        double bucketTime = runtime.seconds();
+        while (opModeIsActive() && runtime.seconds() < bucketTime + 3) {
+            Bucket.setPosition(0.5);
+        }
 
-        //Set target positions and run to given positions
-        mecanumDrive("reverse", 5, 1);
-
-        mecanumDrive("strafeRight", 5, 1);
-
-        mecanumDrive("reverse", 93, 1);
-
-        Slide.setTargetPosition(-500);
-        Slide.setPower(0.2);
-        Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        Spinner.setPower(0);
-
-        mecanumDrive("reverse", 22, 1);
-
-        mecanumDrive("strafeRight", 42, 1);
-
+        resetStartTime();
+        double bucketTime2 = runtime.seconds();
+        while (opModeIsActive() && runtime.seconds() < bucketTime2 + 1) {
+            Bucket.setPosition(1);
+        }
 
         Slide.setTargetPosition(0);
-        Slide.setPower(0.2);
+        Slide.setPower(0.5);
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (Slide.isBusy()) {
         }
+        mecanumDrive("forward", -27, 1);
+        mecanumDrive("strafe", 41, 1);
+        mecanumDrive("forward", 112, 1);
     }
+}
