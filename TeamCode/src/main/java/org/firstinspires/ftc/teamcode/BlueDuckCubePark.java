@@ -37,15 +37,9 @@ public class BlueDuckCubePark extends LinearOpMode {
     double spinnerPower;
     double slidePower;
     double multiplier;
-    double timeA; //strafe to carousel
-    double timeB; //do carousel
-    double timeC; //move back
-    double timeD; //turn robot
-    double timeE; //strafe left and drive into park
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
-    int i;
     boolean trackingMode;
     double spinFactor;
     boolean checker;

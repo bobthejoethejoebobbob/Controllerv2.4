@@ -36,16 +36,9 @@ public class DucksAndParkRed extends LinearOpMode
     double spinnerPower;
     double slidePower;
     double multiplier;
-    double timeA; //strafe to carousel
-    double timeB; //do carousel
-    double timeC; //move back
-    double timeD; //turn robot
-    double timeE; //strafe left and drive into park
-    double tickConversion;
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
-    int i;
     boolean trackingMode;
     double spinFactor;
     boolean checker;
@@ -56,7 +49,6 @@ public class DucksAndParkRed extends LinearOpMode
     boolean bWasDown;
     boolean xWasDown;
     int armMode;
-    double initialposition;
     public double startTime = runtime.milliseconds();
     public void mecanumDrive(String driveType, double value1, double power) {
         FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
