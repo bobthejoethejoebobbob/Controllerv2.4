@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name=" Red Carousel Cube Warehouse)", group="Exercises")
-public class Auto_RedAlliance_CarouselSide extends LinearOpMode {
+@Autonomous(name="Auto Red Alliance Carousel Side (Duck-Cube(top)-Parking_Zone)", group="Exercises")
+public class Auto_RedAlliance_Cube_Park extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -203,28 +203,17 @@ public class Auto_RedAlliance_CarouselSide extends LinearOpMode {
         telemetry.update();
         resetStartTime();
         waitForStart();
-        mecanumDrive("forward", -3.2, .55);
-        mecanumDrive("strafe", -4.2, .5);
-        mecanumDrive("forward", -3.5, .5);
-        telemetry.addLine("moved");
-        double duckTime = runtime.seconds();
-        while (opModeIsActive() && runtime.seconds() < duckTime + 6) {
-            Spinner.setPower(-0.5);
-        }
-        Spinner.setPower(0);
-        mecanumDrive("strafe", -40, .5);
-        mecanumDrive("forward", 27, .5);
 
 
+        mecanumDrive("forward", 30, .6);
         Slide.setTargetPosition(-930);
         Slide.setPower(0.5);
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (Slide.isBusy()) {
         }
-
         resetStartTime();
         double bucketTime = runtime.seconds();
-        while (opModeIsActive() && runtime.seconds() < bucketTime + 3) {
+        while (opModeIsActive() && runtime.seconds() < bucketTime + 2) {
             Bucket.setPosition(0.5);
         }
 
@@ -239,8 +228,8 @@ public class Auto_RedAlliance_CarouselSide extends LinearOpMode {
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (Slide.isBusy()) {
         }
-        mecanumDrive("forward", -27, 1);
-        mecanumDrive("strafe", 41, 1);
-        mecanumDrive("forward", 112, 1);
+        mecanumDrive("turn", -90, .6);
+        mecanumDrive("strafe", 30, .6);
+        mecanumDrive("forward", -50, 1);
     }
 }
