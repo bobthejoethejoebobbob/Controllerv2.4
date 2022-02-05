@@ -230,6 +230,6 @@ public class Blue_Cube_Warehouse extends LinearOpMode {
         mecanumDrive("turn", 90, .5);
         mecanumDrive("strafe", 25.5, .7);
         mecanumDrive("forward", -50, 1);
-        mecanumDrive("strafe", 30, .8);
+        mecanumDrive("strafe", -30, .8);
     }
 }
