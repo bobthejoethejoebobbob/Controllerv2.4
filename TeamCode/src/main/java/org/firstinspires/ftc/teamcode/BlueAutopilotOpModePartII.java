@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name="TeleOp", group="Iterative Opmode")
-public class AutopilotOpModePartII extends OpMode {
+@TeleOp(name="TeleOpBlue", group="Iterative Opmode")
+public class BlueAutopilotOpModePartII extends OpMode {
 
     // Declare  OpMode members.
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
@@ -66,7 +66,7 @@ public class AutopilotOpModePartII extends OpMode {
         spinnerPower = 0.0;
         slidePower = 0.0;
         multiplier = 1.0;
-        intakeSetting = 1;
+        intakeSetting = 2;
         spinnerSetting = 1;
         intakeFactor = 1.0;
         trackingMode = false;
@@ -257,11 +257,6 @@ public class AutopilotOpModePartII extends OpMode {
             }
             if (!gamepad2.a && !gamepad2.y) {
                 slide = 0.0;
-            }
-            if (Slide.getCurrentPosition() > 20) {
-                Slide.setTargetPosition(0);
-                slide = 0.0;
-                Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             //Intake + Spinner settings
             if (gamepad1.dpad_up) {
