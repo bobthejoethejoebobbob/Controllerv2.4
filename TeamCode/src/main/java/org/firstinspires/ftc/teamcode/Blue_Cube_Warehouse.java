@@ -205,7 +205,7 @@ public class Blue_Cube_Warehouse extends LinearOpMode {
 //        }
 //        Spinner.setPower(0);
 //        mecanumDrive("forward", 2, .5);
-        mecanumDrive("forward", 16.51, .5);
+        mecanumDrive("forward", 21, .);
 
 
         Slide.setTargetPosition(-950);
@@ -228,7 +228,8 @@ public class Blue_Cube_Warehouse extends LinearOpMode {
         Slide.setTargetPosition(0);
         Slide.setPower(0.5);
         mecanumDrive("turn", 90, .5);
-        mecanumDrive("strafe", 17, .7);
-        mecanumDrive("forward", -40, .5);
+        mecanumDrive("strafe", 25.5, .7);
+        mecanumDrive("forward", -50, 1);
+        mecanumDrive("strafe", 30, .8);
     }
 }
