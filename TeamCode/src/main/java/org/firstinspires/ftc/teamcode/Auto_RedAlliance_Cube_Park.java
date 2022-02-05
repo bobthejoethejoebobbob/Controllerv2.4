@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+@Disabled
 @Autonomous(name="Auto Red Alliance Carousel Side (Duck-Cube(top)-Parking_Zone)", group="Exercises")
 public class Auto_RedAlliance_Cube_Park extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized

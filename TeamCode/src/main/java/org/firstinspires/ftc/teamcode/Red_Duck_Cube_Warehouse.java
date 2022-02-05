@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name=" Red Carousel Cube Warehouse)", group="Exercises")
-public class Auto_RedAlliance_CarouselSide extends LinearOpMode {
+@Autonomous(name=" Red Duck Cube Warehouse)", group="Exercises")
+public class Red_Duck_Cube_Warehouse extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;

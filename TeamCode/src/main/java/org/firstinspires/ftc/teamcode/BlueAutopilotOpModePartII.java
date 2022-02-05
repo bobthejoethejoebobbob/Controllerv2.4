@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name="TeleOpBlue", group="Iterative Opmode")
+@TeleOp(name="TeleOp_Blue", group="Iterative Opmode")
 public class BlueAutopilotOpModePartII extends OpMode {
 
     // Declare  OpMode members.

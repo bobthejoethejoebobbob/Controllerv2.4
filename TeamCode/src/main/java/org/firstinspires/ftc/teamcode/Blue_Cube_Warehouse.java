@@ -3,12 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name=" Red Duck Cube Parking Zone", group="Exercises")
-public class Red_Duck_Cube_ParkZone extends LinearOpMode {
+@Autonomous(name="Blue Cube Warehouse", group="Exercises")
+public class Blue_Cube_Warehouse extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -35,16 +36,9 @@ public class Red_Duck_Cube_ParkZone extends LinearOpMode {
     double spinnerPower;
     double slidePower;
     double multiplier;
-    double timeA; //strafe to carousel
-    double timeB; //do carousel
-    double timeC; //move back
-    double timeD; //turn robot
-    double timeE; //strafe left and drive into park
-    double tickConversion;
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
-    int i;
     boolean trackingMode;
     double spinFactor;
     boolean checker;
@@ -55,7 +49,6 @@ public class Red_Duck_Cube_ParkZone extends LinearOpMode {
     boolean bWasDown;
     boolean xWasDown;
     int armMode;
-    double initialposition;
     public double startTime = runtime.milliseconds();
 
     public void mecanumDrive(String driveType, double value1, double power) {
@@ -168,7 +161,7 @@ public class Red_Duck_Cube_ParkZone extends LinearOpMode {
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
         BackRight.setDirection(DcMotor.Direction.FORWARD);
         Intake.setDirection(DcMotor.Direction.FORWARD);
-        Spinner.setDirection(DcMotor.Direction.FORWARD);
+        Spinner.setDirection(DcMotor.Direction.REVERSE);
         Intake2.setDirection(DcMotor.Direction.FORWARD);
         Slide.setDirection(DcMotor.Direction.FORWARD);
 
@@ -203,20 +196,19 @@ public class Red_Duck_Cube_ParkZone extends LinearOpMode {
         telemetry.update();
         resetStartTime();
         waitForStart();
-        mecanumDrive("forward", -3.2, .55);
-        mecanumDrive("strafe", -4.2, .5);
-        mecanumDrive("forward", -3.5, .5);
-        telemetry.addLine("moved");
-        double duckTime = runtime.seconds();
-        while (opModeIsActive() && runtime.seconds() < duckTime + 6) {
-            Spinner.setPower(-0.5);
-        }
-        Spinner.setPower(0);
-        mecanumDrive("strafe", -40, .5);
-        mecanumDrive("forward", 27, .5);
+//        mecanumDrive("forward", 3.2, .55);
+//        mecanumDrive("strafe", 4.2, .5);
+//        telemetry.addLine("moved");
+//        double duckTime = runtime.seconds();
+//        while (opModeIsActive() && runtime.seconds() < duckTime + 6) {
+//            Spinner.setPower(-0.5);
+//        }
+//        Spinner.setPower(0);
+//        mecanumDrive("forward", 2, .5);
+        mecanumDrive("forward", 16.51, .5);
 
 
-        Slide.setTargetPosition(-930);
+        Slide.setTargetPosition(-950);
         Slide.setPower(0.5);
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (Slide.isBusy()) {
@@ -227,19 +219,16 @@ public class Red_Duck_Cube_ParkZone extends LinearOpMode {
         while (opModeIsActive() && runtime.seconds() < bucketTime + 3) {
             Bucket.setPosition(0.5);
         }
-
-        resetStartTime();
         double bucketTime2 = runtime.seconds();
-        while (opModeIsActive() && runtime.seconds() < bucketTime2 + 1) {
+        while (opModeIsActive() && runtime.seconds() < bucketTime2 + 3) {
             Bucket.setPosition(1);
-        }
+            Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        }
         Slide.setTargetPosition(0);
         Slide.setPower(0.5);
-        Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (Slide.isBusy()) {
-        }
-        mecanumDrive("forward", -32, 1);
-        mecanumDrive("strafe", 17, 1);
+        mecanumDrive("turn", 90, .5);
+        mecanumDrive("strafe", 17, .7);
+        mecanumDrive("forward", -40, .5);
     }
 }
