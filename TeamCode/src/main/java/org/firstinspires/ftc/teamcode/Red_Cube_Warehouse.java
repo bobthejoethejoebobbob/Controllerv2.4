@@ -221,8 +221,8 @@ public class Red_Cube_Warehouse extends LinearOpMode {
         while (Slide.isBusy()) {
         }
         mecanumDrive("turn", -90, .6);
-        mecanumDrive("strafe", 25.5, .6);
+        mecanumDrive("strafe", -25.5, .6);
         mecanumDrive("forward", -50, 1);
-        mecanumDrive("strafe", -30, .8);
+        mecanumDrive("strafe", 30, .8);
     }
 }
