@@ -218,8 +218,6 @@ public class Red_Cube_Warehouse extends LinearOpMode {
         Slide.setTargetPosition(0);
         Slide.setPower(0.5);
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (Slide.isBusy()) {
-        }
         mecanumDrive("turn", -90, .6);
         mecanumDrive("strafe", -25.5, .6);
         mecanumDrive("forward", -50, 1);
