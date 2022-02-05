@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Blue Alliance Carousel Parking_Zone", group="Exercises")
-public class Auto_BlueAlliance_Carousel_Cube_Parking_Zone extends LinearOpMode {
+public class Blue_Duck_Cube_ParkZone extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;

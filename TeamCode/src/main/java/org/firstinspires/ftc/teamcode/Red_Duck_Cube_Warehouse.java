@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Auto Red Alliance Carousel Parking Zone", group="Exercises")
-public class Auto_RedAlliance_Carousel_Cube_Park extends LinearOpMode {
+@Autonomous(name="Auto Red Alliance Carousel Warehouse)", group="Exercises")
+public class Red_Duck_Cube_Warehouse extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -239,7 +239,8 @@ public class Auto_RedAlliance_Carousel_Cube_Park extends LinearOpMode {
         Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (Slide.isBusy()) {
         }
-        mecanumDrive("forward", -32, 1);
-        mecanumDrive("strafe", 17, 1);
+        mecanumDrive("forward", -27, 1);
+        mecanumDrive("strafe", 41, 1);
+        mecanumDrive("forward", 112, 1);
     }
 }
