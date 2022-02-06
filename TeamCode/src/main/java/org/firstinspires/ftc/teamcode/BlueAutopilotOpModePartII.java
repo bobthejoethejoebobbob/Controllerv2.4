@@ -145,18 +145,6 @@ public class BlueAutopilotOpModePartII extends OpMode {
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     //key press function
-    public boolean hold(boolean key) {
-        if (key) {
-            this.checker = true;
-        }
-        if (this.checker) {
-            if (!key) {
-                this.checker = false;
-                return true;
-            }
-        }
-        return false;
-    }
     public void loop() {
         //tracking object mode: User input towards object and robot automatically connects
         if (gamepad1.b) {
@@ -241,22 +229,18 @@ public class BlueAutopilotOpModePartII extends OpMode {
             //Bucket controls
             if (gamepad2.b) {
                 if (!xWasDown){
-                    bucketPos = 0.5;
+                    bucketPos = 0.6;
                 }
             } else {
                 bucketPos = 1.0;
             }
             //Slide controls
-            if (gamepad2.y) {
-                slide = -1.0;
-            }
             if (Slide.getCurrentPosition() < 20) {
-                if (gamepad2.a) {
-                    slide = 1.0;
-                }
-            }
-            if (!gamepad2.a && !gamepad2.y) {
-                slide = 0.0;
+                //gamepad2 left stick
+                slide = -1.5*gamepad2.left_stick_y;
+            } else {
+                slide = -0.25;
+                Slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
             //Intake + Spinner settings
             if (gamepad1.dpad_up) {
@@ -285,11 +269,11 @@ public class BlueAutopilotOpModePartII extends OpMode {
             }
 
             //Using the spinner
-            if (gamepad1.left_trigger < 0.5) {
+            if (gamepad2.right_trigger < 0.5) {
                 rotation = true;
             }
             if (rotation = true) {
-                if (gamepad1.left_trigger < 0.5) {
+                if (gamepad2.right_trigger < 0.5) {
                     rotation = false;
                 }
             }
