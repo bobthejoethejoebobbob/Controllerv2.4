@@ -41,7 +41,6 @@ public class RedAutopilotOpModePartII extends OpMode {
     int intakeSetting;
     int spinnerSetting;
     double intakeFactor;
-    int i;
     boolean trackingMode;
     double spinFactor;
     boolean checker;
@@ -328,8 +327,10 @@ public class RedAutopilotOpModePartII extends OpMode {
             telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
             telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
             telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-slide", Slide.getCurrentPosition());            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-slide", Slide.getCurrentPosition());
 
 
             telemetry.addData("Bucket Position", bucketPos);
