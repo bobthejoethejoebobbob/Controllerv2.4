@@ -328,8 +328,6 @@ public class RedAutopilotOpModePartII extends OpMode {
             telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
             telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
             telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
             telemetry.addData("encoder-slide", Slide.getCurrentPosition());
 
 
