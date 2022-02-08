@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name="TeleOp_BlueNew", group="Iterative Opmode")
+@TeleOp(name="TeleOp_Blue_New", group="Iterative Opmode")
 public class Blue_TeleOpNew extends OpMode {
 
     // Declare  OpMode members.
@@ -127,12 +127,6 @@ public class Blue_TeleOpNew extends OpMode {
         telemetry.addData("Status", "Initialized");
     }
 
-    public void spin() {
-        resetStartTime();
-        while (startTime<1.5) {
-            spin = 0.1747+startTime*0.1747;
-        }
-    }
 
     @Override
     public void init_loop() {
@@ -230,11 +224,10 @@ public class Blue_TeleOpNew extends OpMode {
                     Intake2.setPower(0);
                 }
             }
-        }
-        else {
+        } else {
             //Bucket controls
             if (gamepad2.b) {
-                if (!xWasDown){
+                if (!xWasDown) {
                     bucketPos = 0.6;
                 }
             } else {
@@ -243,7 +236,7 @@ public class Blue_TeleOpNew extends OpMode {
             //Slide controls
             if (Slide.getCurrentPosition() < 20) {
                 //gamepad2 left stick
-                slide = -1.5*gamepad2.left_stick_y;
+                slide = -1.5 * gamepad2.left_stick_y;
             } else {
                 slide = -0.25;
                 Slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -275,38 +268,41 @@ public class Blue_TeleOpNew extends OpMode {
             }
 
             //Using the spinner
-            if (gamepad2.right_trigger < 0.5) {
+            if (gamepad2.left_trigger < 0.5) {
                 rotation = true;
                 resetStartTime();
             }
             if (rotation = true) {
-                if (gamepad2.right_trigger < 0.5) {
+                if (gamepad2.left_trigger < 0.5) {
                     rotation = false;
                 }
             }
             if (rotation) {
-                spin();
-            }
-            if (!rotation) {
-                spin = 0.0;
-            }
-            //Movement variables based on user inputs
-            force = gamepad1.right_trigger;
-            drive = gamepad1.left_stick_y;
-            strafe = -gamepad1.left_stick_x;
-            turn = -gamepad1.right_stick_x;
-            spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
-            intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
-            slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
-            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
-            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8;
-            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8;
-            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8;
+                resetStartTime();
+                while (startTime < 1.5) {
+                    spin = 0.1747 + startTime * 0.1747;
+                }
 
-            //make sure left and right power are outside threshold
+                if (!rotation) {
+                    spin = 0.0;
+                }
+                //Movement variables based on user inputs
+                force = gamepad1.right_trigger;
+                drive = gamepad1.left_stick_y;
+                strafe = -gamepad1.left_stick_x;
+                turn = -gamepad1.right_stick_x;
+                spinnerPower = Range.clip(spin, -1.0, 1.0);
+                intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
+                slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
+                frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
+                frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8;
+                backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8;
+                backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8;
+
+                //make sure left and right power are outside threshold
 
 
-            // public double clip(double number, double min, double max)
+                // public double clip(double number, double min, double max)
 
 /*           telemetry.addData("drive", drive);
             telemetry.addData("turn", turn);
@@ -315,27 +311,29 @@ public class Blue_TeleOpNew extends OpMode {
             telemetry.addData("spin", spin);
             telemetry.addData("intakeSetting", intakeSetting);
             telemetry.addData("spinnerSetting", spinnerSetting);*/
-            //Telemetry
-            telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
-            telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
-            telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-slide", Slide.getCurrentPosition());
+                //Telemetry
+                telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
+                telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
+                telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
+                telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+                telemetry.addData("encoder-slide", Slide.getCurrentPosition());
 
-            telemetry.addData("Bucket Position", bucketPos);
+                telemetry.addData("Bucket Position", bucketPos);
 
+                telemetry.update();
+                //Sets all of the motors
+                Bucket.setPosition(bucketPos);
+                FrontLeft.setPower(multiplier * frontLeftPower);
+                FrontRight.setPower(multiplier * frontRightPower);
+                BackLeft.setPower(multiplier * backLeftPower);
+                BackRight.setPower(multiplier * backRightPower);
+                Intake.setPower(-intakeFactor * intakePower);
+                Spinner.setPower(spinFactor * spinnerPower);
+                Intake2.setPower(intakeFactor * intakePower);
+                Slide.setPower(slidePower);
+            }
             telemetry.update();
-            //Sets all of the motors
-            Bucket.setPosition(bucketPos);
-            FrontLeft.setPower(multiplier * frontLeftPower);
-            FrontRight.setPower(multiplier * frontRightPower);
-            BackLeft.setPower(multiplier * backLeftPower);
-            BackRight.setPower(multiplier * backRightPower);
-            Intake.setPower(-intakeFactor * intakePower);
-            Spinner.setPower(spinFactor * spinnerPower);
-            Intake2.setPower(intakeFactor * intakePower);
-            Slide.setPower(slidePower);
         }
-        telemetry.update();
     }
+
 }
