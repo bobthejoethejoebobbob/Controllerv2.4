@@ -143,100 +143,9 @@ public class RedAutopilotOpModePartII extends OpMode {
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
-    //key press function
-    public boolean hold(boolean key) {
-        if (key) {
-            this.checker = true;
-        }
-        if (this.checker) {
-            if (!key) {
-                this.checker = false;
-                return true;
-            }
-        }
-        return false;
-    }
     public void loop() {
         //tracking object mode: User input towards object and robot automatically connects
-        if (gamepad1.b) {
-            if (gamepad1.right_trigger > 0.5) {
-                double y_coordinate = -gamepad1.left_stick_x;
-                double x_coordinate = -gamepad1.left_stick_y;
-                telemetry.addLine("tracking mode on");
-                double distance = Math.sqrt(Math.pow(x_coordinate, 2) + Math.pow(y_coordinate, 2));
-                telemetry.update();
-                if (distance > 0.0) {
-                    //distance input is determined by stick position magnitude
-                    //angle input is determined by stick position angle
-                    double angle = 50 * Math.asin(y_coordinate / distance);
-                    telemetry.addLine(String.valueOf(angle));
-                    int p = 0;
-                    while (p < (300 * Math.abs(angle * y_coordinate))) {
-                        if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                        }
-                        if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                        }
-                        p++;
-                    }
-                    int j = 0;
-                    while (j < (20000 * distance)) {
-                        if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                            j++;
-                        }
-                        if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            frontRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            backLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
-                            FrontLeft.setPower(0.5 * frontLeftPower);
-                            FrontRight.setPower(0.5 * frontRightPower);
-                            BackLeft.setPower(0.5 * backLeftPower);
-                            BackRight.setPower(0.5 * backRightPower);
-                            j++;
-                        }
-                    }
-                    //lines above control how motors are activated to conform to angle and distance values
-                    FrontLeft.setPower(0);
-                    FrontRight.setPower(0);
-                    BackLeft.setPower(0);
-                    BackRight.setPower(0);
-                    int k = 0;
-                    while (k < 80000) {
-                        intakePower = Range.clip(1.0, -1.0, 1.0) * 0.8;
-                        Intake.setPower(-intakePower);
-                        Intake2.setPower(intakePower);
-                        k++;
-                    }
-                    Intake.setPower(0);
-                    Intake2.setPower(0);
-                }
-            }
-        }
-        else {
+
             //Bucket controls
             if (gamepad2.b) {
                 if (!xWasDown){
@@ -345,6 +254,5 @@ public class RedAutopilotOpModePartII extends OpMode {
             Intake2.setPower(intakeFactor * intakePower);
             Slide.setPower(slidePower);
         }
-        telemetry.update();
     }
-}
+
