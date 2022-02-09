@@ -280,13 +280,12 @@ public class BlueAutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-            spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
-            intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
-            slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
-            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
-            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8;
-            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8;
-            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8;
+            intakePower = Range.clip(force, -1.0, 1.0) * 1;
+            slidePower = Range.clip(slide, -1.0, 1.0) * 1;
+            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 1;
+            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 1;
+            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 1;
+            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 1;
 
             //make sure left and right power are outside threshold
 
