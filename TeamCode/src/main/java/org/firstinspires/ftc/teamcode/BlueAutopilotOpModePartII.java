@@ -168,7 +168,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
                             frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
                             frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
                             backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
-                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(angle, -1.0, 1.0) * 1;
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
@@ -260,19 +260,20 @@ public class BlueAutopilotOpModePartII extends OpMode {
             }
 
             //Using the spinner
-            if (gamepad2.right_trigger > 0.5) {
-                runSpinner = true;
+            if (gamepad2.right_bumper) {
+                    runSpinner = true;
             }
             if (runSpinner) {
                 spin = 0.20 + (startTime * 0.22);
                 telemetry.addData("spinner power", spin);
                 telemetry.addData("is it working", 2);
-                if (startTime > 2) {
-                    spin = 0;
+                if (startTime > 1.5) {
                     runtime.reset();
+                    resetStartTime();spin = 0;
                     telemetry.addData("done:)", 1);
                     runSpinner = false;
                 }
+
             }
 
             //Movement variables based on user inputs
@@ -280,12 +281,13 @@ public class BlueAutopilotOpModePartII extends OpMode {
             drive = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             turn = -gamepad1.right_stick_x;
-            intakePower = Range.clip(force, -1.0, 1.0) * 1;
-            slidePower = Range.clip(slide, -1.0, 1.0) * 1;
-            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 1;
-            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 1;
-            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 1;
-            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 1;
+            spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
+            intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
+            slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
+            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
+            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8;
+            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8;
+            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8;
 
             //make sure left and right power are outside threshold
 

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Auto Blue Alliance Carousel Side (Duck-Cube(top)-Parking_Zone)", group="Exercises")
-public class Auto_BlueAlliance_Cube_Park extends LinearOpMode {
+public class BlueCubeWarehouse extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
@@ -159,7 +159,7 @@ public class Auto_BlueAlliance_Cube_Park extends LinearOpMode {
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
         BackLeft.setDirection(DcMotor.Direction.REVERSE);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
         Intake.setDirection(DcMotor.Direction.FORWARD);
         Spinner.setDirection(DcMotor.Direction.REVERSE);
         Intake2.setDirection(DcMotor.Direction.FORWARD);
