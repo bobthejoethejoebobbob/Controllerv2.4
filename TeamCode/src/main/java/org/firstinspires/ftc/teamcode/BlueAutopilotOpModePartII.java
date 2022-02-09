@@ -108,7 +108,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
         BackLeft.setDirection(DcMotor.Direction.REVERSE);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
         Intake.setDirection(DcMotor.Direction.FORWARD);
         Spinner.setDirection(DcMotor.Direction.FORWARD);
         Intake2.setDirection(DcMotor.Direction.FORWARD);
@@ -262,14 +262,15 @@ public class BlueAutopilotOpModePartII extends OpMode {
             //Using the spinner
             if (gamepad2.right_bumper) {
                     runSpinner = true;
+                    runtime.reset();
+                    resetStartTime();
             }
             if (runSpinner) {
                 spin = 0.20 + (startTime * 0.22);
                 telemetry.addData("spinner power", spin);
                 telemetry.addData("is it working", 2);
                 if (startTime > 1.5) {
-                    runtime.reset();
-                    resetStartTime();spin = 0;
+                   spin = 0;
                     telemetry.addData("done:)", 1);
                     runSpinner = false;
                 }
