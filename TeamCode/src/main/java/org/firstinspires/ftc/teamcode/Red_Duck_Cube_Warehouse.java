@@ -212,8 +212,8 @@ public class Red_Duck_Cube_Warehouse extends LinearOpMode {
             Spinner.setPower(-0.5);
         }
         Spinner.setPower(0);
-        mecanumDrive("strafe", -40, .5);
-        mecanumDrive("forward", 27, .5);
+        mecanumDrive("strafe", -39, .5);
+        mecanumDrive("forward", 28, .5);
 
 
         Slide.setTargetPosition(-930);

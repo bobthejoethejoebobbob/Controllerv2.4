@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Blue Cube Warehouse", group="Exercises")
+@Autonomous(name="Blue Alliance Cube Warehouse", group="Exercises")
 public class Blue_Cube_Warehouse extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
@@ -205,7 +205,7 @@ public class Blue_Cube_Warehouse extends LinearOpMode {
 //        }
 //        Spinner.setPower(0);
 //        mecanumDrive("forward", 2, .5);
-        mecanumDrive("forward", 21, 0);
+        mecanumDrive("forward", 21, .8);
 
 
         Slide.setTargetPosition(-950);

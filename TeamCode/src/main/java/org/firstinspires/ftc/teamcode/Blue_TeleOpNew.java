@@ -9,11 +9,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name="TeleOp_Blue", group="Iterative Opmode")
-public class BlueAutopilotOpModePartII extends OpMode {
+@TeleOp(name="TeleOp_BlueNew", group="Iterative Opmode")
+public class Blue_TeleOpNew extends OpMode {
 
     // Declare  OpMode members.
-    private final ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
+    private ElapsedTime runtime = new ElapsedTime(); //Declared AND Initialized
     private DcMotor FrontLeft; //Declared  but not initialized
     private DcMotor FrontRight;
     private DcMotor BackLeft;
@@ -39,7 +39,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
     double slidePower;
     double multiplier;
     int intakeSetting;
-    boolean leftTriggerWasDown;
+    int spinnerSetting;
     double intakeFactor;
     int i;
     boolean trackingMode;
@@ -47,8 +47,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
     boolean checker;
     boolean rotation;
     boolean xWasDown;
-    boolean runSpinner;
-    public double startTime = runtime.seconds();
+    public double startTime = runtime.milliseconds();
 
     @Override
     public void init() {
@@ -68,15 +67,14 @@ public class BlueAutopilotOpModePartII extends OpMode {
         slidePower = 0.0;
         multiplier = 1.0;
         intakeSetting = 2;
+        spinnerSetting = 1;
         intakeFactor = 1.0;
         trackingMode = false;
-        spinFactor = 1.0;
+        spinFactor = 0.0;
         checker = false;
         rotation = false;
         bucketPos = 0.5;
         xWasDown = false;
-        leftTriggerWasDown = false;
-        runSpinner = false;
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -129,6 +127,12 @@ public class BlueAutopilotOpModePartII extends OpMode {
         telemetry.addData("Status", "Initialized");
     }
 
+    public void spin() {
+        resetStartTime();
+        while (startTime<1.5) {
+            spin = 0.1747+startTime*0.1747;
+        }
+    }
 
     @Override
     public void init_loop() {
@@ -148,7 +152,6 @@ public class BlueAutopilotOpModePartII extends OpMode {
      */
     //key press function
     public void loop() {
-        startTime = runtime.seconds();
         //tracking object mode: User input towards object and robot automatically connects
         if (gamepad1.b) {
             if (gamepad1.right_trigger > 0.5) {
@@ -165,20 +168,20 @@ public class BlueAutopilotOpModePartII extends OpMode {
                     int p = 0;
                     while (p < (300 * Math.abs(angle * y_coordinate))) {
                         if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(-angle, -1.0, 1.0);
-                            frontRightPower = Range.clip(angle, -1.0, 1.0);
-                            backLeftPower = Range.clip(-angle, -1.0, 1.0);
-                            backRightPower = Range.clip(angle, -1.0, 1.0) * -1;
+                            frontLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(angle, -1.0, 1.0) * 0.8;
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
                             BackRight.setPower(0.5 * backRightPower);
                         }
                         if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(angle, -1.0, 1.0);
-                            frontRightPower = Range.clip(-angle, -1.0, 1.0);
-                            backLeftPower = Range.clip(angle, -1.0, 1.0);
-                            backRightPower = Range.clip(-angle, -1.0, 1.0) - 1;
+                            frontLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(angle, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-angle, -1.0, 1.0) * 0.8;
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
@@ -189,10 +192,10 @@ public class BlueAutopilotOpModePartII extends OpMode {
                     int j = 0;
                     while (j < (20000 * distance)) {
                         if (x_coordinate < 0) {
-                            frontLeftPower = Range.clip(1.0, -1.0, 1.0);
-                            frontRightPower = Range.clip(1.0, -1.0, 1.0);
-                            backLeftPower = Range.clip(1.0, -1.0, 1.0);
-                            backRightPower = Range.clip(1.0, -1.0, 1.0) * -1;
+                            frontLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(1.0, -1.0, 1.0) * 0.8;
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
@@ -200,10 +203,10 @@ public class BlueAutopilotOpModePartII extends OpMode {
                             j++;
                         }
                         if (x_coordinate >= 0) {
-                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0);
-                            frontRightPower = Range.clip(-1.0, -1.0, 1.0);
-                            backLeftPower = Range.clip(-1.0, -1.0, 1.0);
-                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * -1;
+                            frontLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            frontRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backLeftPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
+                            backRightPower = Range.clip(-1.0, -1.0, 1.0) * 0.8;
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
@@ -227,10 +230,11 @@ public class BlueAutopilotOpModePartII extends OpMode {
                     Intake2.setPower(0);
                 }
             }
-        } else {
+        }
+        else {
             //Bucket controls
             if (gamepad2.b) {
-                if (!xWasDown) {
+                if (!xWasDown){
                     bucketPos = 0.6;
                 }
             } else {
@@ -239,7 +243,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
             //Slide controls
             if (Slide.getCurrentPosition() < 20) {
                 //gamepad2 left stick
-                slide = 1.5 * gamepad2.left_stick_y;
+                slide = -1.5*gamepad2.left_stick_y;
             } else {
                 slide = -0.25;
                 Slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -251,37 +255,41 @@ public class BlueAutopilotOpModePartII extends OpMode {
             if (gamepad1.dpad_down) {
                 intakeSetting = 2;
             }
+            if (gamepad1.dpad_left) {
+                spinnerSetting = 1;
+            }
+            if (gamepad1.dpad_right) {
+                spinnerSetting = 2;
+            }
             if (intakeSetting == 1) {
                 intakeFactor = 1.0;
             }
             if (intakeSetting == 2) {
                 intakeFactor = -1.0;
             }
+            if (spinnerSetting == 1) {
+                spinFactor = 1.0;
+            }
+            if (spinnerSetting == 2) {
+                spinFactor = -1.0;
+            }
 
             //Using the spinner
-            if (gamepad2.right_bumper) {
-                runSpinner = true;
-                runtime.reset();
+            if (gamepad2.right_trigger < 0.5) {
+                rotation = true;
                 resetStartTime();
             }
-            if (runSpinner && startTime < 1.2) {
-                spin = 0.20 + (startTime * 0.22);
-                telemetry.addData("spinner power", spin);
-                telemetry.addData("is it working", 2);
-            }
-               else if (startTime > 1.2 && startTime < 1.4) {
-                    spin = 1;
-                    telemetry.addData("spinner power", spin);
+            if (rotation = true) {
+                if (gamepad2.right_trigger < 0.5) {
+                    rotation = false;
                 }
-
-
-               else if (startTime > 1.4) {
-                spin = 0;
-                telemetry.addData("done:)", 1);
-                runSpinner = false;
-
             }
-
+            if (rotation) {
+                spin();
+            }
+            if (!rotation) {
+                spin = 0.0;
+            }
             //Movement variables based on user inputs
             force = gamepad1.right_trigger;
             drive = gamepad1.left_stick_y;
@@ -290,10 +298,10 @@ public class BlueAutopilotOpModePartII extends OpMode {
             spinnerPower = Range.clip(spin, -1.0, 2.0) * 2;
             intakePower = Range.clip(force, -1.0, 1.0) * 0.8;
             slidePower = Range.clip(slide, -1.0, 1.0) * 0.4;
-            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
-            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
-            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
-            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * -1;
+            frontLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0) * 0.8;
+            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0) * 0.8;
+            backLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0) * 0.8;
+            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0) * 0.8;
 
             //make sure left and right power are outside threshold
 
@@ -311,12 +319,10 @@ public class BlueAutopilotOpModePartII extends OpMode {
             telemetry.addData("encoder-front-left", FrontLeft.getCurrentPosition());
             telemetry.addData("encoder-back-left", BackLeft.getCurrentPosition());
             telemetry.addData("encoder-front-right", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-slide", Slide.getCurrentPosition());            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
-
+            telemetry.addData("encoder-back-right", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-slide", Slide.getCurrentPosition());
 
             telemetry.addData("Bucket Position", bucketPos);
-            telemetry.addData("Run Time", startTime);
 
             telemetry.update();
             //Sets all of the motors
@@ -326,7 +332,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
             BackLeft.setPower(multiplier * backLeftPower);
             BackRight.setPower(multiplier * backRightPower);
             Intake.setPower(-intakeFactor * intakePower);
-            Spinner.setPower(spinnerPower);
+            Spinner.setPower(spinFactor * spinnerPower);
             Intake2.setPower(intakeFactor * intakePower);
             Slide.setPower(slidePower);
         }
