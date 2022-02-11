@@ -106,7 +106,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
         BackRight.setDirection(DcMotor.Direction.FORWARD);
         Intake.setDirection(DcMotor.Direction.FORWARD);
@@ -168,7 +168,7 @@ public class BlueAutopilotOpModePartII extends OpMode {
                             frontLeftPower = Range.clip(-angle, -1.0, 1.0);
                             frontRightPower = Range.clip(angle, -1.0, 1.0);
                             backLeftPower = Range.clip(-angle, -1.0, 1.0);
-                            backRightPower = Range.clip(angle, -1.0, 1.0) * -1;
+                            backRightPower = Range.clip(angle, -1.0, 1.0);
                             FrontLeft.setPower(0.5 * frontLeftPower);
                             FrontRight.setPower(0.5 * frontRightPower);
                             BackLeft.setPower(0.5 * backLeftPower);
@@ -275,12 +275,15 @@ public class BlueAutopilotOpModePartII extends OpMode {
                 }
 
 
-               else if (startTime > 1.4) {
+            else if (startTime > 1.4) {
                 spin = 0;
                 telemetry.addData("done:)", 1);
                 runSpinner = false;
 
             }
+               if (gamepad2.left_bumper) {
+                   Spinner.setPower(0.75);
+               }
 
             //Movement variables based on user inputs
             force = gamepad1.right_trigger;
